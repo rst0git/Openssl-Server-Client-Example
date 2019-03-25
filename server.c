@@ -3,6 +3,20 @@
 #define CRT "server.crt"
 #define KEY "server.key"
 
+void ssl_load_cert(const char *certfile, const char *keyfile)
+{
+	if (SSL_CTX_use_certificate_file(ctx, certfile,  SSL_FILETYPE_PEM) != 1)
+		fail("SSL_CTX_use_certificate_file() failed");
+
+	if (SSL_CTX_use_PrivateKey_file(ctx, keyfile, SSL_FILETYPE_PEM) != 1)
+		fail("SSL_CTX_use_PrivateKey_filei() failed");
+
+	if (SSL_CTX_check_private_key(ctx) != 1)
+		fail("SSL_CTX_check_private_key() failed");
+
+	printf("Certificate and private key verified\n");
+}
+
 int main(int argc, char *argv[])
 {
 	struct sockaddr_in servaddr;
@@ -56,7 +70,8 @@ int main(int argc, char *argv[])
 	fdset[0].fd = STDIN_FILENO;
 	fdset[0].events = POLLIN;
 
-	ssl_init(CRT, KEY);
+	ssl_init();
+	ssl_load_cert(CRT, KEY);
 
 	while (1) {
 		printf("Waiting for connection on port %d ...\n", port);

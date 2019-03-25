@@ -277,7 +277,7 @@ static inline void fail(const char *msg)
 	exit(-1);
 }
 
-void ssl_init(const char *certfile, const char *keyfile)
+void ssl_init(void)
 {
 	printf("Initialising SSL\n");
 
@@ -292,19 +292,6 @@ void ssl_init(const char *certfile, const char *keyfile)
 	if (!ctx) {
 		perror("SSL_CTX_new()");
 		exit(-1);
-	}
-
-	if (certfile && keyfile) {
-		if (SSL_CTX_use_certificate_file(ctx, certfile,  SSL_FILETYPE_PEM) != 1)
-			fail("SSL_CTX_use_certificate_file() failed");
-
-		if (SSL_CTX_use_PrivateKey_file(ctx, keyfile, SSL_FILETYPE_PEM) != 1)
-			fail("SSL_CTX_use_PrivateKey_filei() failed");
-
-		if (SSL_CTX_check_private_key(ctx) != 1)
-			fail("SSL_CTX_check_private_key() failed");
-
-		printf("Certificate and private key verified\n");
 	}
 
 	/* SSLv2 & SSLv3 are deprecated and should not be used */
