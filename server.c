@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 			return -1;
 		}
 
-		ssl_client_init(&client, c_fd, SSLMODE_SERVER);
+		ssl_client_init(&client, c_fd, 1);
 
 		inet_ntop(addr.sin_family, &addr.sin_addr, str,
 			INET_ADDRSTRLEN);

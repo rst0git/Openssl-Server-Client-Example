@@ -59,16 +59,7 @@ struct ssl_client
 	void (*io_on_read)(char *buf, size_t len);
 } client;
 
-/* ------------------------------------------------------------------------ *
- * This enum contols whether the SSL connection needs to initiate the SSL   *
- * handshake.                                                               *
- * ------------------------------------------------------------------------ */
-enum ssl_mode {
-	SSLMODE_SERVER,
-	SSLMODE_CLIENT
-};
-
-void ssl_client_init(struct ssl_client *p, int fd, enum ssl_mode mode)
+void ssl_client_init(struct ssl_client *p, int fd, int is_server)
 {
 	memset(p, 0, sizeof(struct ssl_client));
 
@@ -78,9 +69,9 @@ void ssl_client_init(struct ssl_client *p, int fd, enum ssl_mode mode)
 	p->wbio = BIO_new(BIO_s_mem());
 	p->ssl = SSL_new(ctx);
 
-	if (mode == SSLMODE_SERVER)
+	if (is_server)
 		SSL_set_accept_state(p->ssl);
-	else if (mode == SSLMODE_CLIENT)
+	else
 		SSL_set_connect_state(p->ssl);
 
 	SSL_set_bio(p->ssl, p->rbio, p->wbio);

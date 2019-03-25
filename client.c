@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 	}
 
 	ssl_init(NULL, NULL);
-	ssl_client_init(&client, sockfd, SSLMODE_CLIENT);
+	ssl_client_init(&client, sockfd, 0);
 	do_ssl_handshake();
 
 	memset(&fdset, 0, sizeof(fdset));
