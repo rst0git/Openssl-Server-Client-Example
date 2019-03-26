@@ -277,17 +277,8 @@ static inline void fail(const char *msg)
 	exit(-1);
 }
 
-void ssl_init(void)
+void ssl_create_context(void)
 {
-	printf("Initialising SSL\n");
-
-	/* SSL initialisation */
-	SSL_library_init();
-	OpenSSL_add_all_algorithms();
-	SSL_load_error_strings();
-	ERR_load_BIO_strings();
-	ERR_load_crypto_strings();
-
 	ctx = SSL_CTX_new(TLS_method());
 	if (!ctx) {
 		perror("SSL_CTX_new()");

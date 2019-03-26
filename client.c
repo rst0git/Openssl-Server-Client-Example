@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	ssl_init();
+	ssl_create_context();
 	ssl_client_init(&client, sockfd, 0);
 	do_ssl_handshake();
 

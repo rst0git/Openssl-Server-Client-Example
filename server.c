@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 	fdset[0].fd = STDIN_FILENO;
 	fdset[0].events = POLLIN;
 
-	ssl_init();
+	ssl_create_context();
 	ssl_load_cert(CRT, KEY);
 
 	while (1) {
