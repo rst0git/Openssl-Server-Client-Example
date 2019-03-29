@@ -160,6 +160,7 @@ int ssl_gen_and_load_cert(void)
 	RSA *r;
 	X509 *cert;
 
+	printf("Generating private key\n");
 	r = ssl_gen_rsa_key();
 	if (!r) {
 		printf("Failed to generate RSA key\n");
@@ -171,6 +172,7 @@ int ssl_gen_and_load_cert(void)
 		goto err;
 	}
 
+	printf("Generating certificate\n");
 	cert = ssl_gen_cert(r);
 	if (!cert) {
 		printf("Failed to create certificate\n");
